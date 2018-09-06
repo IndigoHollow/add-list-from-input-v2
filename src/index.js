@@ -22,7 +22,8 @@ class App extends React.Component {
         }
       ],
       inputValue: "",
-      lastKey: 0
+      lastKey: 0,
+      lastItem: ""
     };
   }
 
@@ -37,8 +38,16 @@ class App extends React.Component {
   handleAddItem(e) {
     let last = this.lastKey() + 1;
     this.setState({
-      list: [...this.state.list, { id: last, text: this.state.inputValue }]
+      list: [...this.state.list, { id: last, text: this.state.inputValue }],
+      lastItem: this.state.inputValue,
+      inputValue: ""
     });
+  }
+
+  componentDidMount() {
+    let lastItem = this.state.list[this.state.list.length - 1].text;
+
+    this.setState({ lastItem: lastItem });
   }
 
   render() {
@@ -49,7 +58,16 @@ class App extends React.Component {
           handleClick={this.handleAddItem}
           valuen={this.state.inputValue}
         />
+
+        <div style={{ marginTop: "20px" }}>
+          Last added item: {this.state.lastItem}
+        </div>
+
         <ListShow list={this.state.list} />
+
+        <div style={{ marginTop: "20px" }}>
+          Namber of elements: {this.state.list.length}
+        </div>
       </React.Fragment>
     );
   }
